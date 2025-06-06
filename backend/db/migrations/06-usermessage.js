@@ -1,45 +1,36 @@
 'use strict';
 
-
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bookings', {
+    await queryInterface.createTable('UserMessages', {
       id: {
-        type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER
       },
-      spotId: {
+      user1Id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Spots",
+          model: "User",
           key: "id"
         },
-
-      },
-      userId: {
+        onDelete: "CASCADE"
+        },
+      matchId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Users",
+          model: "Match",
           key: "id"
         },
-      },
-      startDate: {
-        type: Sequelize.STRING(30),
-        allowNull: false,
-      },
-      endDate: {
-        type: Sequelize.STRING(30),
-        allowNull: false,
+        onDelete: "CASCADE"
       },
       createdAt: {
         allowNull: false,
@@ -51,9 +42,12 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    }, options);
+
+  }, options);
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Bookings');
+    options.tableName = "UserMessages";
+    await queryInterface.dropTable('UserMessages');
   }
 };

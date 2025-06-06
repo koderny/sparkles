@@ -1,6 +1,5 @@
 'use strict';
 
-
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -8,28 +7,30 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('SpotImages', {
+    await queryInterface.createTable('Matches', {
       id: {
-        type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER
       },
-      spotId: {
+      user1Id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+        },
+      user2Id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Spots",
+          model: "Users",
           key: "id"
         },
+        onDelete: "CASCADE"
       },
-      url: {
-        type: Sequelize.STRING(500),
+      status: {
+        type: Sequelize.STRING(20),
         allowNull: false,
-      },
-      preview: {
-        type: Sequelize.BOOLEAN,
-        default: false
+        default: "pending",
       },
       createdAt: {
         allowNull: false,
@@ -41,9 +42,12 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    }, options);
+
+  }, options);
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('SpotImages');
+    options.tableName = "Matches";
+    await queryInterface.dropTable('Matches');
   }
 };

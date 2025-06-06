@@ -23,18 +23,53 @@ module.exports = {
         allowNull: false,
       },
       email: {
-        type: Sequelize.STRING(256),
-        allowNull: false,
-        unique: true
-      },
-      username: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(50),
         allowNull: false,
         unique: true
       },
       hashedPassword: {
         type: Sequelize.STRING.BINARY,
         allowNull: false
+      },
+      username: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        unique: true
+      },
+      bio: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+        unique: true
+      },
+      dateOfBirth: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        unique: false
+      },
+      zodiacSign: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        unique: false
+      },
+      gender: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        unique: false
+      },
+      profilePicture: { //url
+        type: Sequelize.STRING(255),
+        allowNull: false,
+        unique: false
+      },
+      location: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+        unique: false
+      },
+      lookingFor: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+        unique: false
       },
       createdAt: {
         allowNull: false,

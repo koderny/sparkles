@@ -5,26 +5,28 @@ if (process.env.NODE_ENV === 'production') {
     options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('ReviewImages', {
+        await queryInterface.createTable('UserSwipe', {
             id: {
-                type: Sequelize.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
+                type: Sequelize.INTEGER
             },
-            url: {
-                type: Sequelize.STRING(500),
-                allowNull: false
-            },
-            reviewId: {
-                type: Sequelize.INTEGER,
+            swiperId: {
                 allowNull: false,
                 references: {
-                    model: "Reviews",
-                    key: "id"
+                    model: 'users',
+                    key: 'id',
+                },
+                onDelete: "CASCADE"
+            },
+            swipedId: {
+                allowNull: false,
+                references: {
+                    model: 'users',
+                    key: 'id'
                 },
                 onDelete: "CASCADE"
             },
@@ -41,7 +43,9 @@ module.exports = {
             }
         }, options);
     },
+
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('ReviewImages');
+        options.tableName = "UserSwipe";
+        await queryInterface.dropTable('UserSwipe');
     }
 };
